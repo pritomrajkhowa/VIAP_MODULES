@@ -3118,9 +3118,9 @@ def list2FOL(file_name1, file_name2):
 
 #python translate2FOL.py inter_representation.txt var_ma_representation.txt
 
-file_name1 = "inter_representation.txt"
+#file_name1 = "inter_representation.txt"
 
-file_name2 = "var_map_representation.txt"
+#file_name2 = "var_map_representation.txt"
 
-list2FOL(file_name1, file_name2)
-#list2FOL(sys.argv[1], sys.argv[2])
+#list2FOL(file_name1, file_name2)
+list2FOL(sys.argv[1], sys.argv[2])
