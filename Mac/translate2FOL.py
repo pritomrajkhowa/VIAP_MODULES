@@ -626,13 +626,13 @@ def translate1(p,v,flag):
 	    #print o
             #print('Output for '+fn+':')
             
+            
+            
+            f,o,a,cm = rec_solver(f,o,a) 
 
             
-            f,o,a,cm = rec_solver(f,o,a)          
-            
             organizeFreeVariable(f,o,a,v)
-            
-            
+                        
             f,o,a,cm = getDummyFunction(f,o,a,cm)
             #f,o,a,cm = update__VERIFIER_nondet(f,o,a,cm)
             
@@ -1667,6 +1667,7 @@ def rec_solver(f,o,a):
     constant_fun_map={}
     
     #return f,o,a,constant_fun_map
+    
 
     equation_map={}
     base_map={}
@@ -1684,10 +1685,17 @@ def rec_solver(f,o,a):
 	     if '->' in equ:
                  axiomes=equ.split('->')
 		 axiomes[0]=simplify(str(axiomes[0]))
-		 variables=str(axiomes[0]).split('<')
-		 variables[0]=variables[0].strip()
-		 variables[1]=variables[1].strip()
-		 constant_fun_map[variables[0]]=variables[1]
+                 if '<' in str(axiomes[0]):
+                    variables=str(axiomes[0]).split('<')
+                    variables[0]=variables[0].strip()
+                    variables[1]=variables[1].strip()
+                    constant_fun_map[variables[0]]=variables[1]
+                 else:
+                    variables=str(axiomes[0]).split('>')
+                    variables[0]=variables[0].strip()
+                    variables[1]=variables[1].strip()
+                    constant_fun_map[variables[1]]=variables[0]
+
     while True:
         solution_map={} 
 	for equation in equation_map:
@@ -3093,10 +3101,10 @@ def list2FOL(file_name1, file_name2):
                 str_variables_list_map = readingFile( file_name2 )
                 
                 programeIF = ast.literal_eval(str_programeIF[0])
-                
+                                
                 variables_list_map = ast.literal_eval(str_variables_list_map[0])
                 
-                
+                                
                 f_map,o_map,a_map,cm_map,assert_map,assume_map,assert_key_map=translate1(programeIF,variables_list_map,1)
                 
                 writtingFile( "frame_axioms.txt" , str(f_map) )
@@ -3118,9 +3126,9 @@ def list2FOL(file_name1, file_name2):
 
 #python translate2FOL.py inter_representation.txt var_ma_representation.txt
 
-#file_name1 = "inter_representation.txt"
+file_name1 = "inter_representation.txt"
 
-#file_name2 = "var_map_representation.txt"
+file_name2 = "var_map_representation.txt"
 
-#list2FOL(file_name1, file_name2)
-list2FOL(sys.argv[1], sys.argv[2])
+list2FOL(file_name1, file_name2)
+#list2FOL(sys.argv[1], sys.argv[2])
